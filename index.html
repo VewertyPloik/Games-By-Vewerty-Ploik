@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Games By Vewerty Ploik</title>
+    <style>
+        /* --- STYLES (Make it look good) --- */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #121212;
+            color: #ffffff;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 3rem;
+            color: #00ffcc;
+            margin-bottom: 10px;
+        }
+
+        .filters {
+            margin-bottom: 30px;
+        }
+
+        .filter-btn {
+            background-color: #1e1e2f;
+            color: #ffffff;
+            border: 2px solid #00ffcc;
+            padding: 10px 20px;
+            margin: 5px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.2s ease;
+        }
+
+        .filter-btn:hover {
+            background-color: #00ffcc;
+            color: #121212;
+        }
+
+        .game-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .game-card {
+            background-color: #1e1e2f;
+            border-radius: 12px;
+            padding: 40px 20px;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .game-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 255, 204, 0.2);
+            background-color: #2a2a40;
+        }
+
+        .game-card h3 {
+            margin: 0;
+            font-size: 1.5rem;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Games By Vewerty Ploik</h1>
+        <p>Select a category to sort games!</p>
+        
+        <div class="filters">
+            <button class="filter-btn" onclick="displayGames('all')">All Games</button>
+            <button class="filter-btn" onclick="displayGames('top')">Top Games</button>
+            <button class="filter-btn" onclick="displayGames('3d')">3D Games</button>
+            <button class="filter-btn" onclick="displayGames('action')">Action</button>
+        </div>
+    </header>
+
+    <main>
+        <div class="game-grid" id="game-grid">
+            </div>
+    </main>
+
+    <script>
+        // EDIT YOUR GAMES HERE! 
+        // Just copy an existing block to add a new one.
+        const gamesList = [
+            {
+                name: "Infinite Craft",
+                url: "https://vewertyploik.github.io/Infinite-Craft/",
+                categories: ["all"] // Fits in Top and 3D!
+            },
+            {
+                name: "Pro Hoops 3D",
+                url: "https://vewertyploik.github.io/Pro-Hoops-3D/",
+                categories: ["all",] // Fits in Top!
+            },
+            {
+                name: "Highway Wheelie",
+                url: "https://vewertyploik.github.io/Highway-Wheelie/",
+                categories: ["all", "3d", "action"] // Fits in 3D and Action!
+            },
+            {
+
+name: "Soccer Career",
+                url: "https://vewertyploik.github.io/Soccer-Career/",
+                categories: ["all", "top"] 
+            },
+            {
+
+name: "Ping Pong Pro",
+                url: "https://vewertyploik.github.io/Ping-Pong-Pro/",
+                categories: ["all", "top","3d"] 
+            },
+            {
+
+name: "Barber Shop Tycoon",
+                url: "https://vewertyploik.github.io/Barber-Shop-Tycoon",
+                categories: ["all", "top","3d"] 
+            },
+            {
+
+name: "Ultimate Fishing",
+                url: "https://vewertyploik.github.io/Ultimate-Fishing/",
+                categories: ["all", "3d","top"] // Fits in 3D and Action!
+            },
+            {
+
+                name: "Naval Warfare",
+                url: "https://vewertyploik.github.io/Naval-Warfare",
+                categories: ["all","top","3d","action"] // Only in All Games
+
+ },
+            {
+
+name: "Moonlit",
+                url: "https://vewertyploik.github.io/Moonlit",
+                categories: ["all","3d"] // Only in All Games
+
+
+ },
+            {
+
+name: "Cabin Escape 6",
+                url: "https://vewertyploik.github.io/Cabin-Escape-6",
+                categories: ["all","3d"] // Only in All Games
+
+
+ },
+            {
+
+name: "The Lost Artifact",
+                url: "https://vewertyploik.github.io/The-Lost-Artifact",
+                categories: ["all","3d","action"] // Only in All Games
+
+
+ },
+            {
+
+name: "Neon Defense",
+                url: "https://vewertyploik.github.io/Neon-Defense",
+                categories: ["all"] // Only in All Games
+
+            }
+        ];
+
+        // This function handles displaying the right games
+        function displayGames(categoryToShow) {
+            const grid = document.getElementById('game-grid');
+            grid.innerHTML = ''; // Clear the current games on the screen
+
+            // Loop through our list of games
+            gamesList.forEach(game => {
+                // If the game's categories include the one we clicked, show it!
+                if (game.categories.includes(categoryToShow)) {
+                    
+                    // Create the game card
+                    const card = document.createElement('div');
+                    card.className = 'game-card';
+                    card.innerHTML = `<h3>${game.name}</h3>`;
+                    
+                    // Make it open the URL in a new tab when clicked
+                    card.onclick = () => {
+                        window.open(game.url, '_blank');
+                    };
+
+                    // Add the card to the grid
+                    grid.appendChild(card);
+                }
+            });
+        }
+
+        // Show 'all' games immediately when the page loads
+        displayGames('all');
+    </script>
+</body>
+</html>
