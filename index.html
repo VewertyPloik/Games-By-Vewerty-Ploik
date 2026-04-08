@@ -90,127 +90,106 @@
             </div>
     </main>
 
-    <script>
-        // EDIT YOUR GAMES HERE! 
-        // Just copy an existing block to add a new one.
-        const gamesList = [
-            {
-               name: "Piano Drop"
-               url: "https://vewertyploik.github.io/Piano-Drop/",
-               categories: ["all","top"]
-                },
-           {
-               name: "The Oregon Trail",
-                url: "https://vewertyploik.github.io/The-Oregon-Trail/",
-                categories: ["all","top"] // Fits in Top and 3D!
-                 },
-            {
-                name: "Infinite Craft",
-                url: "https://vewertyploik.github.io/Infinite-Craft/",
-                categories: ["all"] // Fits in Top and 3D!
-            },
-            {
-                name: "Pro Hoops 3D",
-                url: "https://vewertyploik.github.io/Pro-Hoops-3D/",
-                categories: ["all",] // Fits in Top!
-            },
-            {
-                name: "Highway Wheelie",
-                url: "https://vewertyploik.github.io/Highway-Wheelie/",
-                categories: ["all", "3d", "action"] // Fits in 3D and Action!
-            },
-            {
-
-name: "Soccer Career",
-                url: "https://vewertyploik.github.io/Soccer-Career/",
-                categories: ["all", "top"] 
-            },
-            {
-
-name: "Ping Pong Pro",
-                url: "https://vewertyploik.github.io/Ping-Pong-Pro/",
-                categories: ["all", "top","3d"] 
-            },
-            {
-
-name: "Barber Shop Tycoon",
-                url: "https://vewertyploik.github.io/Barber-Shop-Tycoon",
-                categories: ["all", "top","3d"] 
-            },
-            {
-
-name: "Ultimate Fishing",
-                url: "https://vewertyploik.github.io/Ultimate-Fishing/",
-                categories: ["all", "3d","top"] // Fits in 3D and Action!
-            },
-            {
-
-                name: "Naval Warfare",
-                url: "https://vewertyploik.github.io/Naval-Warfare",
-                categories: ["all","top","3d","action"] // Only in All Games
-
- },
-            {
-
-name: "Moonlit",
-                url: "https://vewertyploik.github.io/Moonlit",
-                categories: ["all","3d"] // Only in All Games
-
-
- },
-            {
-
-name: "Cabin Escape 6",
-                url: "https://vewertyploik.github.io/Cabin-Escape-6",
-                categories: ["all","3d"] // Only in All Games
-
-
- },
-            {
-
-name: "The Lost Artifact",
-                url: "https://vewertyploik.github.io/The-Lost-Artifact",
-                categories: ["all","3d","action"] // Only in All Games
-
-
- },
-            {
-
-name: "Neon Defense",
-                url: "https://vewertyploik.github.io/Neon-Defense",
-                categories: ["all"] // Only in All Games
-
-            }
-        ];
-
-        // This function handles displaying the right games
-        function displayGames(categoryToShow) {
-            const grid = document.getElementById('game-grid');
-            grid.innerHTML = ''; // Clear the current games on the screen
-
-            // Loop through our list of games
-            gamesList.forEach(game => {
-                // If the game's categories include the one we clicked, show it!
-                if (game.categories.includes(categoryToShow)) {
-                    
-                    // Create the game card
-                    const card = document.createElement('div');
-                    card.className = 'game-card';
-                    card.innerHTML = `<h3>${game.name}</h3>`;
-                    
-                    // Make it open the URL in a new tab when clicked
-                    card.onclick = () => {
-                        window.open(game.url, '_blank');
-                    };
-
-                    // Add the card to the grid
-                    grid.appendChild(card);
-                }
-            });
+  <script>
+    // EDIT YOUR GAMES HERE!
+    const gamesList = [
+        {
+            name: "Piano Drop",
+            url: "https://vewertyploik.github.io/Piano-Drop/",
+            categories: ["all"]
+        },
+        {
+            name: "The Oregon Trail",
+            url: "https://vewertyploik.github.io/The-Oregon-Trail/",
+            categories: ["all", "top"]
+        },
+        {
+            name: "Infinite Craft",
+            url: "https://vewertyploik.github.io/Infinite-Craft/",
+            categories: ["all"]
+        },
+        {
+            name: "Pro Hoops 3D",
+            url: "https://vewertyploik.github.io/Pro-Hoops-3D/",
+            categories: ["all"]
+        },
+        {
+            name: "Highway Wheelie",
+            url: "https://vewertyploik.github.io/Highway-Wheelie/",
+            categories: ["all", "3d", "action"]
+        },
+        {
+            name: "Soccer Career",
+            url: "https://vewertyploik.github.io/Soccer-Career/",
+            categories: ["all", "top"]
+        },
+        {
+            name: "Ping Pong Pro",
+            url: "https://vewertyploik.github.io/Ping-Pong-Pro/",
+            categories: ["all", "top", "3d"]
+        },
+        {
+            name: "Barber Shop Tycoon",
+            url: "https://vewertyploik.github.io/Barber-Shop-Tycoon",
+            categories: ["all", "top", "3d"]
+        },
+        {
+            name: "Ultimate Fishing",
+            url: "https://vewertyploik.github.io/Ultimate-Fishing/",
+            categories: ["all", "3d", "top"]
+        },
+        {
+            name: "Naval Warfare",
+            url: "https://vewertyploik.github.io/Naval-Warfare",
+            categories: ["all", "top", "3d", "action"]
+        },
+        {
+            name: "Moonlit",
+            url: "https://vewertyploik.github.io/Moonlit",
+            categories: ["all", "3d"]
+        },
+        {
+            name: "Cabin Escape 6",
+            url: "https://vewertyploik.github.io/Cabin-Escape-6",
+            categories: ["all", "3d"]
+        },
+        {
+            name: "The Lost Artifact",
+            url: "https://vewertyploik.github.io/The-Lost-Artifact",
+            categories: ["all", "3d", "action"]
+        },
+        {
+            name: "Neon Defense",
+            url: "https://vewertyploik.github.io/Neon-Defense",
+            categories: ["all"]
         }
+    ];
 
-        // Show 'all' games immediately when the page loads
-        displayGames('all');
-    </script>
+    // This function handles displaying the right games
+    function displayGames(categoryToShow) {
+        const grid = document.getElementById('game-grid');
+        grid.innerHTML = ''; // Clear the current games on the screen
+        // Loop through our list of games
+        gamesList.forEach(game => {
+            // If the game's categories include the one we clicked, show it!
+            if (game.categories.includes(categoryToShow)) {
+                // Create the game card
+                const card = document.createElement('div');
+                card.className = 'game-card';
+                card.innerHTML = `<h3>${game.name}</h3>`;
+               
+                // Make it open the URL in a new tab when clicked
+                card.onclick = () => {
+                    window.open(game.url, '_blank');
+                };
+                // Add the card to the grid
+                grid.appendChild(card);
+            }
+        });
+    }
+
+    // Show 'all' games immediately when the page loads
+    displayGames('all');
+</script>
 </body>
 </html>
