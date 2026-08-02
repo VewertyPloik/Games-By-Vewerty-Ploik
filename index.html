@@ -86,33 +86,32 @@
     </header>
 
     <main>
-        <div class="game-grid" id="game-grid">
-            </div>
+        <div class="game-grid" id="game-grid"></div>
     </main>
 
   <script>
     // EDIT YOUR GAMES HERE!
     const gamesList = [
-        
         {
-              name: "Pocket Bowling",
+            name: "Pocket Bowling",
             url: "https://vewertyploik.github.io/Pocket-Bowling/",
             categories: ["all"]
         },
+        {
             name: "Market Manager",
             url: "https://vewertyploik.github.io/Market-Manager/",
-            categories: ["all","3d"]
-                   },
+            categories: ["all", "3d"]
+        },
         {
             name: "MindFlex 2",
             url: "https://vewertyploik.github.io/MindFlex-2/",
-            categories: ["all","top"]
-                   },
+            categories: ["all", "top"]
+        },
         {
             name: "Roll Versus",
             url: "https://vewertyploik.github.io/Roll-Versus/",
-            categories: ["all","action"]
-                   },
+            categories: ["all", "action"]
+        },
         {
             name: "Burger Counter",
             url: "https://vewertyploik.github.io/Burger-Counter/",
@@ -121,28 +120,27 @@
         {
             name: "Ragdoll Blast",
             url: "https://vewertyploik.github.io/Ragdoll-Blast/",
-            categories: ["all","3d","action"]
+            categories: ["all", "3d", "action"]
         },
         {
             name: "Arcade Hoops",
             url: "https://vewertyploik.github.io/Arcade-Hoops/",
-            categories: ["all","top"]
+            categories: ["all", "top"]
         },
         {
-name: "Songle",
+            name: "Songle",
             url: "https://vewertyploik.github.io/Songle/",
             categories: ["all"]
         },
         {
-            
             name: "Mindflex",
             url: "https://vewertyploik.github.io/Mindflex/",
-            categories: ["all","top"]
+            categories: ["all", "top"]
         },
         {
             name: "Cabin Escape 7",
             url: "https://vewertyploik.github.io/Cabin-Escape-7/",
-            categories: ["all","top","action"]
+            categories: ["all", "top", "action"]
         },
         {
             name: "Piano Drop",
@@ -220,6 +218,7 @@ name: "Songle",
     function displayGames(categoryToShow) {
         const grid = document.getElementById('game-grid');
         grid.innerHTML = ''; // Clear the current games on the screen
+        
         // Loop through our list of games
         gamesList.forEach(game => {
             // If the game's categories include the one we clicked, show it!
@@ -233,6 +232,7 @@ name: "Songle",
                 card.onclick = () => {
                     window.open(game.url, '_blank');
                 };
+                
                 // Add the card to the grid
                 grid.appendChild(card);
             }
