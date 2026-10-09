@@ -1,84 +1,244 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Games By Vewerty Ploik</title>
-    <style>
-        /* --- STYLES (Make it look good) --- */
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #121212;
-            color: #ffffff;
-            margin: 0;
-            padding: 20px;
-            text-align: center;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Games By Vewerty Ploik</title>
+<style>
+    :root {
+        --bg: #121212;
+        --card: #1e1e2f;
+        --card-hover: #2a2a40;
+        --accent: #00ffcc;
+    }
 
-        h1 {
-            font-size: 3rem;
-            color: #00ffcc;
-            margin-bottom: 10px;
-        }
+    * { box-sizing: border-box; }
 
-        .filters {
-            margin-bottom: 30px;
-        }
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: var(--bg);
+        color: #ffffff;
+        margin: 0;
+        padding: 20px;
+        text-align: center;
+    }
 
-        .filter-btn {
-            background-color: #1e1e2f;
-            color: #ffffff;
-            border: 2px solid #00ffcc;
-            padding: 10px 20px;
-            margin: 5px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: all 0.2s ease;
-        }
+    h1 {
+        font-size: clamp(1.7rem, 6vw, 3rem);
+        color: var(--accent);
+        margin: 0 0 10px;
+    }
 
-        .filter-btn:hover {
-            background-color: #00ffcc;
-            color: #121212;
-        }
+    header p { margin: 0 0 24px; color: #a8a8bd; }
 
-        .game-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 20px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
+    .filters { margin-bottom: 30px; }
 
-        .game-card {
-            background-color: #1e1e2f;
-            border-radius: 12px;
-            padding: 40px 20px;
-            cursor: pointer;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-        }
+    .filter-btn {
+        background-color: #1e1e2f;
+        color: #ffffff;
+        border: 2px solid var(--accent);
+        padding: 10px 20px;
+        margin: 5px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: bold;
+        font-family: inherit;
+        transition: all 0.2s ease;
+    }
 
-        .game-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 15px rgba(0, 255, 204, 0.2);
-            background-color: #2a2a40;
-        }
+    .filter-btn:hover {
+        background-color: var(--accent);
+        color: #121212;
+    }
 
-        .game-card h3 {
-            margin: 0;
-            font-size: 1.5rem;
-        }
-    </style>
+    .filter-btn.active {
+        background-color: var(--accent);
+        color: #121212;
+    }
+
+    .game-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 20px;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .game-card {
+        position: relative;
+        overflow: hidden;
+        background-color: var(--card);
+        border-radius: 12px;
+        padding: 40px 20px;
+        cursor: pointer;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+    }
+
+    .game-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 15px rgba(0, 255, 204, 0.2);
+        background-color: var(--card-hover);
+    }
+
+    .game-card h3 {
+        margin: 0;
+        font-size: 1.5rem;
+    }
+
+    /* --- The diagonal version ribbon --- */
+    .version-ribbon {
+        position: absolute;
+        top: 7px;
+        right: -48px;
+        width: 130px;
+        padding: 5px 0;
+        font-size: 10px;
+        font-weight: 800;
+        line-height: 1;
+        letter-spacing: 0.5px;
+        text-align: center;
+        white-space: nowrap;
+        color: #0b0b12;
+        transform: rotate(45deg);
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.45);
+        pointer-events: none;
+        z-index: 2;
+    }
+
+    /* --- Info button (top right of the UI) --- */
+    .info-btn {
+        position: fixed;
+        top: 16px;
+        right: 16px;
+        width: 44px;
+        height: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        background: rgba(30, 30, 47, 0.9);
+        border: 2px solid var(--accent);
+        color: var(--accent);
+        font-family: inherit;
+        font-size: 1.25rem;
+        font-weight: 700;
+        cursor: pointer;
+        z-index: 150;
+        transition: all 0.2s ease;
+    }
+
+    .info-btn:hover {
+        background: var(--accent);
+        color: #121212;
+        transform: scale(1.08);
+    }
+
+    /* --- Legend modal --- */
+    .legend-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.75);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        z-index: 200;
+    }
+
+    .legend-overlay.open { display: flex; }
+
+    .legend-panel {
+        position: relative;
+        width: 100%;
+        max-width: 440px;
+        max-height: 85vh;
+        overflow-y: auto;
+        background: #1a1a2b;
+        border: 1px solid #33334d;
+        border-radius: 16px;
+        padding: 28px;
+        text-align: left;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+    }
+
+    .legend-panel h2 {
+        margin: 0 0 8px;
+        font-size: 1.4rem;
+        color: var(--accent);
+    }
+
+    .legend-sub {
+        margin: 0 0 22px;
+        color: #b8b8c8;
+        font-size: 0.9rem;
+        line-height: 1.5;
+    }
+
+    .legend-list {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+    }
+
+    .legend-item {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+    }
+
+    .legend-swatch {
+        flex: 0 0 auto;
+        width: 22px;
+        height: 22px;
+        margin: 0 6px;
+        border-radius: 5px;
+        transform: rotate(45deg);
+        box-shadow: 0 0 12px rgba(255, 255, 255, 0.08);
+    }
+
+    .legend-text { display: flex; flex-direction: column; }
+    .legend-text strong { font-size: 0.95rem; }
+    .legend-text span { font-size: 0.8rem; color: #9a9ab0; }
+
+    .legend-foot {
+        margin: 22px 0 0;
+        font-size: 0.8rem;
+        color: #7a7a92;
+        line-height: 1.5;
+    }
+
+    .legend-close {
+        position: absolute;
+        top: 12px;
+        right: 12px;
+        width: 32px;
+        height: 32px;
+        border: none;
+        border-radius: 50%;
+        background: #2a2a40;
+        color: #fff;
+        font-size: 1.2rem;
+        line-height: 1;
+        cursor: pointer;
+        transition: background 0.2s ease;
+    }
+
+    .legend-close:hover { background: #3a3a55; }
+</style>
 </head>
 <body>
 
     <header>
         <h1>Games By Vewerty Ploik</h1>
         <p>Select a category to sort games!</p>
-        
+
         <div class="filters">
             <button class="filter-btn" onclick="displayGames('all')">All Games</button>
+            <button class="filter-btn" onclick="displayGames('new')">Newly Updated</button>
             <button class="filter-btn" onclick="displayGames('top')">Top Games</button>
             <button class="filter-btn" onclick="displayGames('3d')">3D Games</button>
             <button class="filter-btn" onclick="displayGames('action')">Action</button>
@@ -89,172 +249,208 @@
         <div class="game-grid" id="game-grid"></div>
     </main>
 
-  <script>
-    // EDIT YOUR GAMES HERE!
-    const gamesList = [
-        {
-            name: "Square Dash",
-            url: "https://vewertyploik.github.io/Square-Dash/",
-            categories: ["all","action","top"]
-        },
-        {
-            name: "MonkeyBird",
-            url: "https://vewertyploik.github.io/MonkeyBird/",
-            categories: ["all","action"]
-        },
-        {
-            name: "Mad Birds",
-            url: "https://vewertyploik.github.io/Mad-Birds/",
-            categories: ["all","top","action"]
-        },
-        {
-            name: "Pocket Bowling",
-            url: "https://vewertyploik.github.io/Pocket-Bowling/",
-            categories: ["all"]
-        },
-        {
-            name: "Market Manager",
-            url: "https://vewertyploik.github.io/Market-Manager/",
-            categories: ["all", "3d"]
-        },
-        {
-            name: "MindFlex 2",
-            url: "https://vewertyploik.github.io/MindFlex-2/",
-            categories: ["all", "top"]
-        },
-        {
-            name: "Roll Versus",
-            url: "https://vewertyploik.github.io/Roll-Versus/",
-            categories: ["all", "action"]
-        },
-        {
-            name: "Burger Counter",
-            url: "https://vewertyploik.github.io/Burger-Counter/",
-            categories: ["all"]
-        },
-        {
-            name: "Ragdoll Blast",
-            url: "https://vewertyploik.github.io/Ragdoll-Blast/",
-            categories: ["all", "3d", "action"]
-        },
-        {
-            name: "Arcade Hoops",
-            url: "https://vewertyploik.github.io/Arcade-Hoops/",
-            categories: ["all", "top"]
-        },
-        {
-            name: "Songle",
-            url: "https://vewertyploik.github.io/Songle/",
-            categories: ["all"]
-        },
-        {
-            name: "Mindflex",
-            url: "https://vewertyploik.github.io/Mindflex/",
-            categories: ["all", "top"]
-        },
-        {
-            name: "Cabin Escape 7",
-            url: "https://vewertyploik.github.io/Cabin-Escape-7/",
-            categories: ["all", "top", "action"]
-        },
-        {
-            name: "Piano Drop",
-            url: "https://vewertyploik.github.io/Piano-Drop/",
-            categories: ["all"]
-        },
-        {
-            name: "The Oregon Trail",
-            url: "https://vewertyploik.github.io/The-Oregon-Trail/",
-            categories: ["all", "top"]
-        },
-        {
-            name: "Infinite Craft",
-            url: "https://vewertyploik.github.io/Infinite-Craft/",
-            categories: ["all"]
-        },
-        {
-            name: "Pro Hoops 3D",
-            url: "https://vewertyploik.github.io/Pro-Hoops-3D/",
-            categories: ["all"]
-        },
-        {
-            name: "Highway Wheelie",
-            url: "https://vewertyploik.github.io/Highway-Wheelie/",
-            categories: ["all", "3d", "action"]
-        },
-        {
-            name: "Soccer Career",
-            url: "https://vewertyploik.github.io/Soccer-Career/",
-            categories: ["all", "top"]
-        },
-        {
-            name: "Ping Pong Pro",
-            url: "https://vewertyploik.github.io/Ping-Pong-Pro/",
-            categories: ["all", "top", "3d"]
-        },
-        {
-            name: "Barber Shop Tycoon",
-            url: "https://vewertyploik.github.io/Barber-Shop-Tycoon",
-            categories: ["all", "top", "3d"]
-        },
-        {
-            name: "Ultimate Fishing",
-            url: "https://vewertyploik.github.io/Ultimate-Fishing/",
-            categories: ["all", "3d", "top"]
-        },
-        {
-            name: "Naval Warfare",
-            url: "https://vewertyploik.github.io/Naval-Warfare",
-            categories: ["all", "top", "3d", "action"]
-        },
-        {
-            name: "Moonlit",
-            url: "https://vewertyploik.github.io/Moonlit",
-            categories: ["all", "3d"]
-        },
-        {
-            name: "Cabin Escape 6",
-            url: "https://vewertyploik.github.io/Cabin-Escape-6",
-            categories: ["all", "3d"]
-        },
-        {
-            name: "The Lost Artifact",
-            url: "https://vewertyploik.github.io/The-Lost-Artifact",
-            categories: ["all", "3d", "action"]
-        },
-        {
-            name: "Neon Defense",
-            url: "https://vewertyploik.github.io/Neon-Defense",
-            categories: ["all"]
-        }
+    <!-- Info button -->
+    <button class="info-btn" id="infoBtn" title="What do the ribbon colors mean?" aria-label="Version color key">i</button>
+
+    <!-- Legend modal -->
+    <div class="legend-overlay" id="legendOverlay">
+        <div class="legend-panel" role="dialog" aria-modal="true" aria-labelledby="legendTitle">
+            <button class="legend-close" id="legendClose" aria-label="Close">&times;</button>
+            <h2 id="legendTitle">Version Badge Key</h2>
+            <p class="legend-sub">
+                Every game card has a diagonal ribbon in the corner showing its current
+                version. The ribbon's <strong>color</strong> tells you how recently that
+                game was updated.
+            </p>
+            <ul class="legend-list" id="legendList"></ul>
+            <p class="legend-foot">
+                Hover any card to see its exact version and update date.
+            </p>
+        </div>
+    </div>
+
+<script>
+    /* ============================================================
+       1. FRESHNESS LEVELS — the color code
+       Ordered from newest to oldest. The last one must be Infinity.
+       ============================================================ */
+    const FRESHNESS = [
+        { maxDays: 7,        color: '#00ff88', name: 'Fresh',        desc: 'Updated within the last week' },
+        { maxDays: 30,       color: '#38bdf8', name: 'Recent',       desc: 'Updated within the last month' },
+        { maxDays: 90,       color: '#facc15', name: 'A while ago',  desc: 'Updated 1–3 months ago' },
+        { maxDays: 180,      color: '#fb923c', name: 'Older',        desc: 'Updated 3–6 months ago' },
+        { maxDays: Infinity, color: '#94a3b8', name: 'Classic',      desc: 'Not updated in over 6 months' }
     ];
 
-    // This function handles displaying the right games
-    function displayGames(categoryToShow) {
-        const grid = document.getElementById('game-grid');
-        grid.innerHTML = ''; // Clear the current games on the screen
-        
-        // Loop through our list of games
-        gamesList.forEach(game => {
-            // If the game's categories include the one we clicked, show it!
-            if (game.categories.includes(categoryToShow)) {
-                // Create the game card
-                const card = document.createElement('div');
-                card.className = 'game-card';
-                card.innerHTML = `<h3>${game.name}</h3>`;
-               
-                // Make it open the URL in a new tab when clicked
-                card.onclick = () => {
-                    window.open(game.url, '_blank');
-                };
-                
-                // Add the card to the grid
-                grid.appendChild(card);
-            }
+    /* ============================================================
+       2. YOUR GAMES — version + updated (YYYY-MM-DD) from your list
+       ============================================================ */
+    const gamesList = [
+        { name: "Square Dash",        url: "https://vewertyploik.github.io/Square-Dash/",        categories: ["all","action","top"], version: "v1.7",  updated: "2026-10-04" },
+        { name: "MonkeyBird",         url: "https://vewertyploik.github.io/MonkeyBird/",         categories: ["all","action"],       version: "v0.1",  updated: "2026-09-10" },
+        { name: "Mad Birds",          url: "https://vewertyploik.github.io/Mad-Birds/",          categories: ["all","top","action"], version: "v1.5",  updated: "2026-08-20" },
+        { name: "Pocket Bowling",     url: "https://vewertyploik.github.io/Pocket-Bowling/",     categories: ["all"],                version: "v1.1",  updated: "2026-08-02" },
+        { name: "Market Manager",     url: "https://vewertyploik.github.io/Market-Manager/",     categories: ["all","3d"],           version: "v1.0",  updated: "2026-06-29" },
+        { name: "MindFlex 2",         url: "https://vewertyploik.github.io/MindFlex-2/",         categories: ["all","top"],          version: "v1.3",  updated: "2026-06-15" },
+        { name: "Roll Versus",        url: "https://vewertyploik.github.io/Roll-Versus/",        categories: ["all","action"],       version: "v1.3",  updated: "2026-07-30" },
+        { name: "Burger Counter",     url: "https://vewertyploik.github.io/Burger-Counter/",     categories: ["all"],                version: "v1.2",  updated: "2026-05-23" },
+        { name: "Ragdoll Blast",      url: "https://vewertyploik.github.io/Ragdoll-Blast/",      categories: ["all","3d","action"],  version: "v1.0",  updated: "2026-05-12" },
+        { name: "Arcade Hoops",       url: "https://vewertyploik.github.io/Arcade-Hoops/",       categories: ["all","top"],          version: "v1.0",  updated: "2026-05-01" },
+        { name: "Songle",             url: "https://vewertyploik.github.io/Songle/",             categories: ["all"],                version: "v1.2",  updated: "2026-07-30" },
+        { name: "Mindflex",           url: "https://vewertyploik.github.io/Mindflex/",           categories: ["all","top"],          version: "v1.11", updated: "2026-05-08" },
+        { name: "Cabin Escape 7",     url: "https://vewertyploik.github.io/Cabin-Escape-7/",     categories: ["all","top","action"], version: "v1.2",  updated: "2026-04-10" },
+        { name: "Piano Drop",         url: "https://vewertyploik.github.io/Piano-Drop/",         categories: ["all"],                version: "v1.3",  updated: "2026-04-08" },
+        { name: "The Oregon Trail",   url: "https://vewertyploik.github.io/The-Oregon-Trail/",   categories: ["all","top"],          version: "v1.2",  updated: "2026-04-02" },
+        { name: "Infinite Craft",     url: "https://vewertyploik.github.io/Infinite-Craft/",     categories: ["all"],                version: "v1.2",  updated: "2026-03-28" },
+        { name: "Pro Hoops 3D",       url: "https://vewertyploik.github.io/Pro-Hoops-3D/",       categories: ["all"],                version: "v1.0",  updated: "2026-03-26" },
+        { name: "Highway Wheelie",    url: "https://vewertyploik.github.io/Highway-Wheelie/",    categories: ["all","3d","action"],  version: "v1.0",  updated: "2026-03-25" },
+        { name: "Soccer Career",      url: "https://vewertyploik.github.io/Soccer-Career/",      categories: ["all","top"],          version: "v1.3",  updated: "2026-03-25" },
+        { name: "Ping Pong Pro",      url: "https://vewertyploik.github.io/Ping-Pong-Pro/",      categories: ["all","top","3d"],     version: "v1.6",  updated: "2026-04-07" },
+        { name: "Barber Shop Tycoon", url: "https://vewertyploik.github.io/Barber-Shop-Tycoon",  categories: ["all","top","3d"],     version: "v1.5",  updated: "2026-03-20" },
+        { name: "Ultimate Fishing",   url: "https://vewertyploik.github.io/Ultimate-Fishing/",   categories: ["all","3d","top"],     version: "v1.6",  updated: "2026-09-09" },
+        { name: "Naval Warfare",      url: "https://vewertyploik.github.io/Naval-Warfare",       categories: ["all","top","3d","action"], version: "v1.3", updated: "2026-03-04" },
+        { name: "Moonlit",            url: "https://vewertyploik.github.io/Moonlit",             categories: ["all","3d"],           version: "v1.0",  updated: "2026-03-08" },
+        { name: "Cabin Escape 6",     url: "https://vewertyploik.github.io/Cabin-Escape-6",      categories: ["all","3d"],           version: "v1.0",  updated: "2026-01-31" },
+        { name: "The Lost Artifact",  url: "https://vewertyploik.github.io/The-Lost-Artifact",   categories: ["all","3d","action"],  version: "v1.1",  updated: "2026-01-10" },
+        { name: "Neon Defense",       url: "https://vewertyploik.github.io/Neon-Defense",        categories: ["all"],                version: "v1.6",  updated: "2026-01-09" }
+    ];
+
+    /* ============================================================
+       3. HELPERS
+       ============================================================ */
+    function daysSince(dateStr) {
+        const then = new Date(dateStr + 'T00:00:00');
+        const now = new Date();
+        now.setHours(0, 0, 0, 0);
+        return Math.max(0, Math.round((now - then) / 86400000));
+    }
+
+    function getFreshness(dateStr) {
+        const days = daysSince(dateStr);
+        const level = FRESHNESS.find(l => days <= l.maxDays);
+        return { ...level, days };
+    }
+
+    function formatDate(dateStr) {
+        return new Date(dateStr + 'T00:00:00').toLocaleDateString(undefined, {
+            year: 'numeric', month: 'short', day: 'numeric'
         });
     }
 
-    // Show 'all' games immediately when the page loads
+    function relativeDays(days) {
+        if (days === 0) return 'today';
+        if (days === 1) return 'yesterday';
+        if (days < 30) return days + ' days ago';
+        const months = Math.round(days / 30);
+        return months + (months === 1 ? ' month ago' : ' months ago');
+    }
+
+    /* ============================================================
+       4. RENDER THE GRID
+       ============================================================ */
+    function displayGames(categoryToShow) {
+        const grid = document.getElementById('game-grid');
+        grid.innerHTML = '';
+
+        // Highlight the active button
+        document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+        const activeBtn = Array.from(document.querySelectorAll('.filter-btn'))
+            .find(btn => btn.textContent.trim().toLowerCase().includes(
+                categoryToShow === 'new' ? 'newly' : categoryToShow === 'all' ? 'all' : categoryToShow
+            ));
+        if (activeBtn) activeBtn.classList.add('active');
+
+        // Build the list to show
+        let toRender;
+
+        if (categoryToShow === 'new') {
+            // Newly Updated: 6 most recently updated, newest first
+            toRender = [...gamesList]
+                .sort((a, b) => new Date(b.updated) - new Date(a.updated))
+                .slice(0, 6);
+        } else {
+            toRender = gamesList.filter(game => game.categories.includes(categoryToShow));
+        }
+
+        toRender.forEach(game => {
+            const fresh = getFreshness(game.updated);
+
+            const card = document.createElement('div');
+            card.className = 'game-card';
+            card.title = game.name + ' — ' + game.version +
+                         '\nLast updated: ' + formatDate(game.updated) +
+                         ' (' + relativeDays(fresh.days) + ')';
+
+            // The diagonal version ribbon
+            const ribbon = document.createElement('div');
+            ribbon.className = 'version-ribbon';
+            ribbon.style.background = fresh.color;
+            ribbon.textContent = game.version;
+
+            // The game name
+            const title = document.createElement('h3');
+            title.textContent = game.name;
+
+            card.append(ribbon, title);
+            card.addEventListener('click', () => window.open(game.url, '_blank'));
+
+            grid.appendChild(card);
+        });
+    }
+
+    /* ============================================================
+       5. LEGEND (built from the same FRESHNESS list, so it never
+          gets out of sync with the ribbon colors)
+       ============================================================ */
+    function buildLegend() {
+        const list = document.getElementById('legendList');
+        list.innerHTML = '';
+
+        FRESHNESS.forEach(level => {
+            const li = document.createElement('li');
+            li.className = 'legend-item';
+
+            const swatch = document.createElement('span');
+            swatch.className = 'legend-swatch';
+            swatch.style.background = level.color;
+
+            const text = document.createElement('div');
+            text.className = 'legend-text';
+
+            const strong = document.createElement('strong');
+            strong.textContent = level.name;
+
+            const span = document.createElement('span');
+            span.textContent = level.desc;
+
+            text.append(strong, span);
+            li.append(swatch, text);
+            list.appendChild(li);
+        });
+    }
+
+    /* ============================================================
+       6. WIRE IT ALL UP
+       ============================================================ */
+    const overlay = document.getElementById('legendOverlay');
+
+    document.getElementById('infoBtn').addEventListener('click', () => {
+        overlay.classList.add('open');
+    });
+
+    document.getElementById('legendClose').addEventListener('click', () => {
+        overlay.classList.remove('open');
+    });
+
+    overlay.addEventListener('click', (e) => {
+        if (e.target === overlay) overlay.classList.remove('open');
+    });
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') overlay.classList.remove('open');
+    });
+
+    buildLegend();
     displayGames('all');
 </script>
 </body>
