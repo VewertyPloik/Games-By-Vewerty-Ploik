@@ -64,6 +64,9 @@
         margin: 0 auto;
     }
 
+    /* ============================================================
+       CARD MODE (default)
+       ============================================================ */
     .game-card {
         position: relative;
         overflow: hidden;
@@ -103,6 +106,102 @@
         box-shadow: 0 2px 6px rgba(0, 0, 0, 0.45);
         pointer-events: none;
         z-index: 2;
+    }
+
+    /* ============================================================
+       POSTER MODE — big photos, small name underneath
+       ============================================================ */
+    body.poster-mode .game-grid {
+        max-width: 1440px;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 24px;
+    }
+
+    .poster {
+        position: relative;
+        cursor: pointer;
+        border-radius: 16px;
+        overflow: hidden;
+        background: #1a1a2b;
+        border: 1px solid #2a2a40;
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+        transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+        animation: posterIn 0.4s ease both;
+    }
+
+    @keyframes posterIn {
+        from { opacity: 0; transform: translateY(14px) scale(0.97); }
+        to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .poster:hover {
+        transform: translateY(-7px);
+        border-color: rgba(0, 255, 204, 0.45);
+        box-shadow: 0 18px 40px rgba(0, 255, 204, 0.16);
+    }
+
+    .poster-media {
+        position: relative;
+        width: 100%;
+        aspect-ratio: 16 / 10;
+        background: linear-gradient(160deg, #23233a, #12121c);
+        overflow: hidden;
+    }
+
+    .poster-media img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        transition: transform 0.4s ease;
+    }
+
+    .poster-media img.broken { display: none; }
+
+    .poster:hover .poster-media img { transform: scale(1.06); }
+
+    .poster-play {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(0, 0, 0, 0.35);
+        opacity: 0;
+        transition: opacity 0.22s ease;
+        pointer-events: none;
+    }
+
+    .poster:hover .poster-play { opacity: 1; }
+
+    .poster-play .circle {
+        width: 58px;
+        height: 58px;
+        border-radius: 50%;
+        background: var(--accent);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 8px 26px rgba(0, 255, 204, 0.55);
+        transform: scale(0.75);
+        transition: transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .poster:hover .poster-play .circle { transform: scale(1); }
+
+    .poster-play svg { width: 24px; height: 24px; color: #121212; display: block; }
+
+    .poster-name {
+        padding: 11px 14px 13px;
+        font-size: 0.92rem;
+        font-weight: 700;
+        text-align: center;
+        color: #ffffff;
+        letter-spacing: 0.3px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        background: #1a1a2b;
     }
 
     /* --- Info button (SVG icon) --- */
@@ -203,6 +302,66 @@
     .legend-text strong { font-size: 0.95rem; }
     .legend-text span { font-size: 0.8rem; color: #9a9ab0; }
 
+    /* --- Poster Mode setting row --- */
+    .legend-setting {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        margin-top: 24px;
+        padding-top: 22px;
+        border-top: 1px solid #2a2a40;
+    }
+
+    .legend-setting-text {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+    }
+
+    .legend-setting-text strong {
+        font-size: 0.95rem;
+        color: #ffffff;
+    }
+
+    .legend-setting-text span {
+        font-size: 0.8rem;
+        color: #9a9ab0;
+        line-height: 1.45;
+    }
+
+    .toggle {
+        flex: 0 0 auto;
+        width: 54px;
+        height: 30px;
+        border-radius: 999px;
+        border: none;
+        background: #2a2a40;
+        cursor: pointer;
+        position: relative;
+        padding: 0;
+        transition: background 0.22s ease;
+    }
+
+    .toggle::after {
+        content: "";
+        position: absolute;
+        top: 3px;
+        left: 3px;
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        background: #ffffff;
+        transition: transform 0.24s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.22s ease;
+    }
+
+    .toggle[aria-checked="true"] { background: var(--accent); }
+
+    .toggle[aria-checked="true"]::after {
+        transform: translateX(24px);
+        background: #0b0b12;
+    }
+
     .legend-foot {
         margin: 22px 0 0;
         font-size: 0.8rem;
@@ -263,7 +422,6 @@
         to   { opacity: 1; transform: scale(1) translateY(0); }
     }
 
-    /* Left thumbnail + right info */
     .modal-content {
         display: flex;
         gap: 22px;
@@ -446,6 +604,11 @@
         .modal-content { padding: 18px; gap: 14px; }
         .modal-thumb { width: 100px; height: 100px; border-radius: 10px; }
         .play-btn { padding: 12px 20px; font-size: 0.92rem; }
+        body.poster-mode .game-grid {
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 14px;
+        }
+        .poster-name { font-size: 0.82rem; padding: 9px 10px 11px; }
     }
 </style>
 </head>
@@ -468,8 +631,8 @@
         <div class="game-grid" id="game-grid"></div>
     </main>
 
-    <!-- Info button (SVG icon) -->
-    <button class="info-btn" id="infoBtn" title="What do the ribbon colors mean?" aria-label="Version color key">
+    <!-- Info / settings button -->
+    <button class="info-btn" id="infoBtn" title="Info &amp; settings" aria-label="Info and settings">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <circle cx="12" cy="12" r="9"/>
             <path d="M12 11v5"/>
@@ -477,7 +640,7 @@
         </svg>
     </button>
 
-    <!-- Legend modal -->
+    <!-- Legend + settings modal -->
     <div class="legend-overlay" id="legendOverlay">
         <div class="legend-panel" role="dialog" aria-modal="true" aria-labelledby="legendTitle">
             <button class="legend-close" id="legendClose" aria-label="Close">
@@ -492,8 +655,18 @@
                 game was updated.
             </p>
             <ul class="legend-list" id="legendList"></ul>
+
+            <!-- Poster Mode setting -->
+            <div class="legend-setting">
+                <div class="legend-setting-text">
+                    <strong>Poster Mode</strong>
+                    <span>Show big game photos with just the name. Tap a photo to play instantly.</span>
+                </div>
+                <button class="toggle" id="posterToggle" role="switch" aria-checked="false" aria-label="Toggle poster mode"></button>
+            </div>
+
             <p class="legend-foot">
-                Click any card to see its picture, exact version and update date.
+                Click any card (in normal mode) to see its picture, exact version and update date.
             </p>
         </div>
     </div>
@@ -642,27 +815,22 @@
         return months + (months === 1 ? ' month ago' : ' months ago');
     }
 
-    function displayGames(categoryToShow) {
-        const grid = document.getElementById('game-grid');
-        grid.innerHTML = '';
+    /* ============================================================
+       STATE
+       ============================================================ */
+    let currentCategory = 'all';
+    let posterMode = false;
+    try { posterMode = localStorage.getItem('gamesPosterMode') === '1'; } catch (e) {}
 
-        document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
-        const activeBtn = Array.from(document.querySelectorAll('.filter-btn'))
-            .find(btn => btn.textContent.trim().toLowerCase().includes(
-                categoryToShow === 'new' ? 'newly' : categoryToShow === 'all' ? 'all' : categoryToShow
-            ));
-        if (activeBtn) activeBtn.classList.add('active');
+    function savePosterMode(on) {
+        try { localStorage.setItem('gamesPosterMode', on ? '1' : '0'); } catch (e) {}
+    }
 
-        let toRender;
-        if (categoryToShow === 'new') {
-            toRender = [...gamesList]
-                .sort((a, b) => new Date(b.updated) - new Date(a.updated))
-                .slice(0, 6);
-        } else {
-            toRender = gamesList.filter(game => game.categories.includes(categoryToShow));
-        }
-
-        toRender.forEach(game => {
+    /* ============================================================
+       GRID RENDERING
+       ============================================================ */
+    function renderCards(list, grid) {
+        list.forEach(game => {
             const fresh = getFreshness(game.updated);
 
             const card = document.createElement('div');
@@ -686,6 +854,80 @@
         });
     }
 
+    function renderPosters(list, grid) {
+        list.forEach((game, i) => {
+            const tile = document.createElement('div');
+            tile.className = 'poster';
+            tile.title = 'Play ' + game.name;
+            tile.style.animationDelay = ((i % 8) * 30) + 'ms';
+
+            const media = document.createElement('div');
+            media.className = 'poster-media';
+
+            const src = game.image || GAME_IMAGES[game.name] || '';
+            if (src) {
+                const img = document.createElement('img');
+                img.alt = game.name;
+                let attempt = 0;
+                img.addEventListener('error', () => {
+                    attempt++;
+                    if (attempt === 1) {
+                        img.src = src + '.webp';
+                    } else {
+                        img.classList.add('broken');
+                    }
+                });
+                img.src = src;
+                media.appendChild(img);
+            }
+
+            const overlay = document.createElement('div');
+            overlay.className = 'poster-play';
+            overlay.innerHTML =
+                '<span class="circle">' +
+                    '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">' +
+                        '<path d="M8 5v14l11-7z"/>' +
+                    '</svg>' +
+                '</span>';
+            media.appendChild(overlay);
+
+            const name = document.createElement('div');
+            name.className = 'poster-name';
+            name.textContent = game.name;
+
+            tile.append(media, name);
+            tile.addEventListener('click', () => window.open(game.url, '_blank', 'noopener'));
+
+            grid.appendChild(tile);
+        });
+    }
+
+    function displayGames(categoryToShow) {
+        currentCategory = categoryToShow;
+
+        const grid = document.getElementById('game-grid');
+        grid.innerHTML = '';
+
+        document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+        const activeBtn = Array.from(document.querySelectorAll('.filter-btn'))
+            .find(btn => btn.textContent.trim().toLowerCase().includes(
+                categoryToShow === 'new' ? 'newly' : categoryToShow === 'all' ? 'all' : categoryToShow
+            ));
+        if (activeBtn) activeBtn.classList.add('active');
+
+        let toRender;
+        if (categoryToShow === 'new') {
+            toRender = [...gamesList]
+                .sort((a, b) => new Date(b.updated) - new Date(a.updated))
+                .slice(0, 6);
+        } else {
+            toRender = gamesList.filter(game => game.categories.includes(categoryToShow));
+        }
+
+        if (posterMode) renderPosters(toRender, grid);
+        else renderCards(toRender, grid);
+    }
+
     /* ===== GAME DETAIL MODAL ===== */
     const gameOverlay   = document.getElementById('gameOverlay');
     const modalThumb    = document.getElementById('modalThumb');
@@ -705,8 +947,6 @@
         modalThumb.onclick = null;
     }
 
-    /* Try src, then retry with ".webp" (same trick as the card game).
-       If both fail, quietly hide the thumbnail. */
     function loadGameImage(src, session) {
         modalThumb.classList.remove('hidden');
         modalThumb.innerHTML = '';
@@ -717,7 +957,7 @@
 
         let attempt = 0;
         img.addEventListener('error', () => {
-            if (session !== modalSession) return;   // stale event
+            if (session !== modalSession) return;
             attempt++;
             if (attempt === 1) {
                 img.src = src + '.webp';
@@ -833,6 +1073,21 @@
         });
     }
 
+    /* ===== POSTER MODE TOGGLE ===== */
+    const posterToggle = document.getElementById('posterToggle');
+
+    function applyPosterMode(on, rerender) {
+        posterMode = on;
+        document.body.classList.toggle('poster-mode', on);
+        posterToggle.setAttribute('aria-checked', on ? 'true' : 'false');
+        savePosterMode(on);
+        if (rerender) displayGames(currentCategory);
+    }
+
+    posterToggle.addEventListener('click', () => {
+        applyPosterMode(!posterMode, true);
+    });
+
     /* ===== WIRE UP ===== */
     const overlay = document.getElementById('legendOverlay');
 
@@ -856,6 +1111,8 @@
         }
     });
 
+    /* ===== INIT ===== */
+    applyPosterMode(posterMode, false);   // restore saved setting, no rerender yet
     buildLegend();
     displayGames('all');
 </script>
