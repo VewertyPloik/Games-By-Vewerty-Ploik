@@ -725,6 +725,7 @@
        GAME PICTURES — keys must match game names EXACTLY.
        ============================================================ */
     const GAME_IMAGES = {
+        "Restaurant Manager":"https://yourimageshare.com/ib/NRNH43Xwzc",
         "PvZ Mini 2":        "https://yourimageshare.com/ib/fYVaLRaJtc",
         "Day Zero":          "https://yourimageshare.com/ib/ise2hPunlh",
         "Square Dash":       "https://yourimageshare.com/ib/qRmkvVjlAv",
@@ -757,6 +758,7 @@
     };
 
     const gamesList = [
+        { name: "Restaurant Manager",url: "https://vewertyploik.github.io/Restaurant-Manager/", categories: ["all","3d","top"],             version: "v1.0",  updated: "2026-11-14" },
         { name: "PvZ Mini 2",        url: "https://vewertyploik.github.io/Plants-VS-Zombies-Mini-2-/",        categories: ["all","action"], version: "v1.0",  updated: "2026-10-17" },
         { name: "Day Zero",          url: "https://vewertyploik.github.io/Day-Zero/",        categories: ["all","action","top","3d"], version: "v1.5",  updated: "2026-11-11" },
         { name: "Square Dash",       url: "https://vewertyploik.github.io/Square-Dash/",     categories: ["all","action","top"], version: "v1.7",  updated: "2026-10-04" },
@@ -1112,7 +1114,7 @@
     });
 
     /* ===== INIT ===== */
-    applyPosterMode(posterMode, false);   // restore saved setting, no rerender yet
+    applyPosterMode(posterMode, false);
     buildLegend();
     displayGames('all');
 </script>
